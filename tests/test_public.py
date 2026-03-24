@@ -249,7 +249,6 @@ class TestAvgSessionDurationByType:
         
         free_durations = [180, 180, 210, 195, 240, 250]
         expected_free_avg = sum(free_durations) / len(free_durations)
-        assert expected_free_avg == result_dict["FreeUser"]
         
         premium_durations = [180,180,240,240,300,260,260,
                             180,210,195,195,260,
@@ -258,14 +257,16 @@ class TestAvgSessionDurationByType:
                             200,200,240,180,
                             200,300,300,180] 
         expected_premium_avg = sum(premium_durations) / len(premium_durations)
-        assert expected_premium_avg == result_dict["PremiumUser"]
         
         family_account_user_durations = [230]
         expected_family_account_user = sum(family_account_user_durations) / len(family_account_user_durations)
-        assert expected_family_account_user == result_dict["FamilyAccountUser"]
         
         family_member_durations = [180, 180]
         expected_family_member = sum(family_member_durations) / len(family_member_durations)
+        
+        assert expected_free_avg == result_dict["FreeUser"]
+        assert expected_premium_avg == result_dict["PremiumUser"]
+        assert expected_family_account_user == result_dict["FamilyAccountUser"]
         assert expected_family_member == result_dict["FamilyMember"]
 
 
