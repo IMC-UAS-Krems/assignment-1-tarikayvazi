@@ -182,7 +182,7 @@ class TestTrackMostDistinctListeners:
         correct_track = "t1"
         result = platform.track_with_most_distinct_listeners()
         
-        assert result != None
+        assert result is not None
         assert result.track_id == correct_track
         
     # __________ADDITIONAL____________
