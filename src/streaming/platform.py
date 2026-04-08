@@ -66,10 +66,14 @@ class StreamingPlatform:
   
   # Q1
   def total_listening_time_minutes(self, start: datetime, end: datetime) -> float:
+    """Returns total listening time in minutes accross the platform for every session"""
     return sum(session.duration_listened_minutes() for session in self._sessions if start <= session.timestamp <= end)
   
   # Q2
   def avg_unique_tracks_per_premium_user(self, days: int = 30) -> float:
+    """Gets all the premium users from the platform and then makes a list of length of unique tracks for each premium user"""
+    """When going through sessions it checks if the session timestamp matches with the cutoff time defined at the beginning"""
+    """At the end, a simple arithmetic mean is calculated for the average"""
     from_date = datetime.now() - timedelta(days=days)
     premium_users = [user for user in self.all_users() if isinstance(user, PremiumUser)]
     
@@ -83,6 +87,8 @@ class StreamingPlatform:
   
   # Q3
   def track_with_most_distinct_listeners(self) -> Track | None:
+    """Creates a dictionary storing track as key and a set of users as value"""
+    """At the end gets the maximum element from the dictionary based of the length of value which is simply number of disctinct listeners"""
     if len(self._sessions) == 0:
       return None
     
@@ -101,6 +107,9 @@ class StreamingPlatform:
   
   # Q4
   def avg_session_duration_by_user_type(self) -> list[tuple[str, float]]:
+    """avg(lst) function calculates arithmetic mean of a list"""
+    """get_users_avg_by_type(type) runs avg() function on a list containing durations of listening times for respective users"""
+    """get_users_avg_by_type(type) was created to avoid redundancy and to make the code more clear"""
     
     def avg(lst):
       return sum(lst) / len(lst) if lst else 0.0
@@ -119,10 +128,16 @@ class StreamingPlatform:
   
   # Q5
   def total_listening_time_underage_sub_users_minutes(self, age_threshold: int = 18) -> float:
-    return sum(user.total_listening_minutes() for user in self.all_users() if isinstance(user, FamilyMember) and user.age < age_threshold)
+    """Gets total listening times in minutes for all FamilyMember users under age_threshold"""
+    return sum(user.total_listening_minutes() for user in self.all_users()
+               if isinstance(user, FamilyMember) and user.age < age_threshold)
   
   # Q6
   def top_artists_by_listening_time(self, n: int = 5) -> list[tuple[Artist, float]]:
+    """Creates a dictionary having artists as keys and their listening time as values"""
+    """If artist does not exists, key is initialized with value 0, and afterwards it just adds up the durations to the value"""
+    """A reversely sorted list based on the value is returned at the end"""
+    """[:n] specifies top return top n elements"""
     artist_listening_time = {}
     for session in self._sessions:
       if isinstance(session.track, Song):
@@ -133,6 +148,11 @@ class StreamingPlatform:
   
   # Q7
   def user_top_genre(self, user_id: str) -> tuple[str, float] | None:
+    """Function gets genre with most listening time for a user prioritizing count, if counts are same it checks duration"""
+    """Tries to get user object through user_id and if user does not exist it returns None"""
+    """Fetches all sessions of that user"""
+    """Creates dictionary that stores genres as keys and a dictionary of count and duration as values"""
+    """Checks maximum count first. If there are multiple elements with same max count, it checks max duration"""
     user = self.get_user(user_id)
     if not user:
       return None
@@ -150,11 +170,14 @@ class StreamingPlatform:
         
         genre_info[genre]["count"] += 1
         genre_info[genre]["duration"] += session.duration_listened_seconds
-        
-    max_count = max(info["count"] for info in genre_info.values())
     
+    # Max count value
+    max_count = max(info["count"] for info in genre_info.values()) 
+    
+    # Elements with the max count value that may have different durations
     same_val_max = [(genre, info["duration"]) for genre, info in genre_info.items() if info["count"] == max_count]
-      
+    
+    # Calculates maxium based on durations of the elements containing the max count
     most_frequent_genre = max(same_val_max, key=lambda x: x[1])[0]
     
     duration_most_frequent = genre_info[most_frequent_genre]["duration"]
@@ -166,7 +189,8 @@ class StreamingPlatform:
   
   # Q8
   def collaborative_playlists_with_many_artists(self, threshold: int = 3) -> list[CollaborativePlaylist]:
-    
+    """get_unique_artists(lst) gets unique artists for all tracks in playlist tracks"""
+    """Loops and gets CollaborativePlaylists if length of unique artists of that playlist is greater than threshold"""
     def get_unique_artists(lst):
       return {track.artist.artist_id for track in lst if isinstance(track, Song)}
     
@@ -175,7 +199,7 @@ class StreamingPlatform:
   
   # Q9
   def avg_tracks_per_playlist_type(self) -> dict[str, float]:
-    
+    """Returns average number of tracks for Playlist and CollaborativePlaylist"""
     def get_playlists(collaborative):
       return [len(playlist.tracks) for playlist in self._playlists.values() if isinstance(playlist, CollaborativePlaylist) == collaborative]
     
@@ -192,7 +216,10 @@ class StreamingPlatform:
   
   # Q10
   def users_who_completed_albums(self) -> list[tuple[User, list[str]]]:
-    
+    """Fetches all albums that have tracks"""
+    """For each user it fetches their unique tracks listened"""
+    """Gets album title for each album if the track ids of the album are a subset of unique user tracks"""
+    """Example: track ids = {1, 2, 3} and user tracks listened = {1, 2, 3, 4}. Meaning track ids are a subset of user tracks listened"""
     valid_albums = [album for album in self._albums.values() if album.tracks]
     
     result = []
