@@ -7,6 +7,7 @@ and provides query methods for analytics.
 Classes to implement:
   - StreamingPlatform
 """
+from __future__ import annotations
 from datetime import datetime, timedelta
 
 from streaming.users import User, PremiumUser, FreeUser, FamilyAccountUser, FamilyMember
