@@ -13,13 +13,13 @@ Classes to implement:
       - NarrativeEpisode
     - AudiobookTrack
 """
+from datetime import date
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
   from streaming.artists import Artist
   from streaming.albums import Album
-  from datetime import date
-
+  
 class Track:
   def __init__(self, track_id:str, title:str, duration_seconds:int, genre:str):
     self.track_id = track_id

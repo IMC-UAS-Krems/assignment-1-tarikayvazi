@@ -8,6 +8,7 @@ Classes to implement:
   - StreamingPlatform
 """
 from datetime import datetime, timedelta
+
 from streaming.users import User, PremiumUser, FreeUser, FamilyAccountUser, FamilyMember
 from streaming.tracks import Track, Song
 from streaming.artists import Artist
@@ -25,35 +26,35 @@ class StreamingPlatform:
     self._playlists: dict[str, Playlist] = {}
     self._sessions: list[ListeningSession] = []
   
-  def add_track(self, track):
+  def add_track(self, track: Track):
     self._catalogue[track.track_id] = track
   
-  def add_user(self, user):
+  def add_user(self, user: User):
     self._users[user.user_id] = user
   
-  def add_artist(self, artist):
+  def add_artist(self, artist: Artist):
     self._artists[artist.artist_id] = artist
   
-  def add_album(self, album):
+  def add_album(self, album: Album):
     self._albums[album.album_id] = album
   
-  def add_playlist(self, playlist):
+  def add_playlist(self, playlist: Playlist):
     self._playlists[playlist.playlist_id] = playlist
   
-  def record_session(self, session):
+  def record_session(self, session: ListeningSession):
     self._sessions.append(session)
     session.user.add_session(session)
   
-  def get_track(self, track_id) -> Track | None:
+  def get_track(self, track_id: str) -> Track | None:
     return self._catalogue.get(track_id)
   
-  def get_user(self, user_id) -> User | None:
+  def get_user(self, user_id: str) -> User | None:
     return self._users.get(user_id)
   
-  def get_artist(self, artist_id) -> Artist | None:
+  def get_artist(self, artist_id: str) -> Artist | None:
     return self._artists.get(artist_id)
   
-  def get_album(self, album_id) -> Album | None:
+  def get_album(self, album_id: str) -> Album | None:
     return self._albums.get(album_id)
   
   def all_users(self) -> list[User]:

@@ -9,7 +9,7 @@ Classes to implement:
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from streaming.tracks import Track
+  from streaming.tracks import Track
 
 class Artist:
   def __init__(self, artist_id:str, name:str, genre:str):
@@ -18,7 +18,7 @@ class Artist:
     self.genre = genre
     self.tracks: list[Track] = []
     
-  def add_track(self, track):
+  def add_track(self, track: Track):
     self.tracks.append(track)
   
   def track_count(self) -> int:

@@ -6,12 +6,12 @@ Implement the ListeningSession class for recording listening events.
 Classes to implement:
   - ListeningSession
 """
+from datetime import datetime
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
   from streaming.users import User
   from streaming.tracks import Track
-  from datetime import datetime
 
 class ListeningSession:
   def __init__(self, session_id:str, user:User, track:Track, timestamp:datetime, duration_listened_seconds:int):

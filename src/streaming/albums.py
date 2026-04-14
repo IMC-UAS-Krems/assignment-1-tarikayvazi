@@ -21,7 +21,7 @@ class Album:
     self.release_year = release_year
     self.tracks: list[AlbumTrack] = []
     
-  def add_track(self, track):
+  def add_track(self, track: AlbumTrack):
     track.album = self
     self.tracks.append(track)
     self.tracks.sort(key=lambda x: x.track_number) # SATISFY test_add_track_sorts_by_number(self)

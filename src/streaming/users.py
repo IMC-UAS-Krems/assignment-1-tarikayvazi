@@ -10,11 +10,12 @@ Classes to implement:
     - FamilyAccountUser
     - FamilyMember
 """
+from __future__ import annotations
 from typing import TYPE_CHECKING
+from datetime import date
 
 if TYPE_CHECKING:
   from streaming.sessions import ListeningSession
-  from datetime import date
 
 class User:
   def __init__(self, user_id:str, name:str, age:int):
@@ -23,7 +24,7 @@ class User:
     self.age = age
     self.sessions: list[ListeningSession] = []
     
-  def add_session(self, session):
+  def add_session(self, session: ListeningSession):
     self.sessions.append(session)
   
   def total_listening_seconds(self) -> int:
@@ -40,7 +41,7 @@ class FamilyAccountUser(User):
     super().__init__(user_id, name, age)
     self.sub_users: list[FamilyMember] = []
   
-  def add_sub_user(self, sub_user):
+  def add_sub_user(self, sub_user: FamilyMember):
     self.sub_users.append(sub_user)
   
   def all_members(self):

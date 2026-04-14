@@ -20,11 +20,11 @@ class Playlist:
     self.owner = owner
     self.tracks: list[Track] = []
     
-  def add_track(self, track):
+  def add_track(self, track: Track):
     if track not in self.tracks:
       self.tracks.append(track)
   
-  def remove_track(self, track_id):
+  def remove_track(self, track_id: str):
     self.tracks = [t for t in self.tracks if t.track_id != track_id]
   
   def total_duration_seconds(self) -> int:
@@ -36,10 +36,10 @@ class CollaborativePlaylist(Playlist):
     super().__init__(playlist_id, name, owner)
     self.contributors: list[User] = [owner] # owner by default
     
-  def add_contributor(self, user):
+  def add_contributor(self, user: User):
     if user not in self.contributors:
       self.contributors.append(user)
   
-  def remove_contributor(self, user):
+  def remove_contributor(self, user: User):
     if user != self.owner:
       self.contributors = [c for c in self.contributors if c != user]
