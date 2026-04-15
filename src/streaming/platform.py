@@ -11,10 +11,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from datetime import datetime, timedelta
 
+# They are directly used in methods
 from streaming.users import PremiumUser, FreeUser, FamilyAccountUser, FamilyMember
 from streaming.tracks import Song
 from streaming.playlists import CollaborativePlaylist
 
+# Type hints only
 if TYPE_CHECKING:
   from streaming.users import User
   from streaming.tracks import Track
