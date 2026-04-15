@@ -8,14 +8,20 @@ Classes to implement:
   - StreamingPlatform
 """
 from __future__ import annotations
+from typing import TYPE_CHECKING
 from datetime import datetime, timedelta
 
-from streaming.users import User, PremiumUser, FreeUser, FamilyAccountUser, FamilyMember
-from streaming.tracks import Track, Song
-from streaming.artists import Artist
-from streaming.albums import Album
-from streaming.playlists import Playlist, CollaborativePlaylist
-from streaming.sessions import ListeningSession
+from streaming.users import PremiumUser, FreeUser, FamilyAccountUser, FamilyMember
+from streaming.tracks import Song
+from streaming.playlists import CollaborativePlaylist
+
+if TYPE_CHECKING:
+  from streaming.users import User
+  from streaming.tracks import Track
+  from streaming.artists import Artist
+  from streaming.albums import Album
+  from streaming.playlists import Playlist
+  from streaming.sessions import ListeningSession
 
 class StreamingPlatform:
   def __init__(self, name:str):
